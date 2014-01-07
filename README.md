@@ -12,17 +12,18 @@ Use composer to install the library and all its dependencies:
 
 ## Basic Usage example
 
-    require 'vendor/autoload.php';
+```php
+require 'vendor/autoload.php';
 
-    use Birke\Mediawiki\Api\MediawikiApiClient;
+use Birke\Mediawiki\Api\MediawikiApiClient;
 
-    $client = MediawikiApiClient::factory();
-    $parse = $client->getCommand('parse', array(
-        'text' => "= Wiki = \n This is test text. \n\nSecond Paragraph\n\n== Foo ==\nLorem Ipsum",
-        'contentmodel' => 'wikitext'
-    ));
-    $result = $help->execute();
-    print_r($result);
-
+$client = MediawikiApiClient::factory();
+$parse = $client->getCommand('parse', array(
+    'text' => "= Wiki = \n This is test text. \n\nSecond Paragraph\n\n== Foo ==\nLorem Ipsum",
+    'contentmodel' => 'wikitext'
+));
+$result = $help->execute();
+print_r($result);
+```
 
 [1]: http://guzzlephp.org/
