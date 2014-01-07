@@ -8,10 +8,21 @@ This is a client for the MediaWiki API. It uses [Guzzle][1] web service library.
 
 Use composer to install the library and all its dependencies:
 
-composer require "gbirke/mediawiki-api:dev-master" 
+    composer require "gbirke/mediawiki-api:dev-master" 
 
 ## Basic Usage example
 
-    TODO
+    require 'vendor/autoload.php';
+
+    use Birke\Mediawiki\Api\MediawikiApiClient;
+
+    $client = MediawikiApiClient::factory();
+    $parse = $client->getCommand('parse', array(
+        'text' => "= Wiki = \n This is test text. \n\nSecond Paragraph\n\n== Foo ==\nLorem Ipsum",
+        'contentmodel' => 'wikitext'
+    ));
+    $result = $help->execute();
+    print_r($result);
+
 
 [1]: http://guzzlephp.org/
