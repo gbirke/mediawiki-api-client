@@ -1,0 +1,35 @@
+{
+    "operations": {
+        "_abstract_request": {
+            "httpMethod": "GET",
+            "parameters": {
+                "action": {
+                    "location": "query",
+                    "type": "string",
+                    "required": true
+                },
+                "format": {
+                    "location": "query",
+                    "type": "string",
+                    "default": "json"
+                }
+            }
+        },
+        "help": {
+            "extends": "_abstract_request",
+            "parameters": {
+                "action": {
+                    "location": "query",
+                    "type": "string",
+                    "default": "help",
+                    "static": true
+                },
+                "modules": {
+                    "location": "query",
+                    "type": "string",
+                    "description": "List of module names (value of the action= parameter). Can specify submodules with a '+'\nSeparate values with '|'\nMaximum number of values 50 (500 for bots)"
+                }
+            }
+        }
+    }
+}
