@@ -30,6 +30,113 @@
                     "description": "List of module names (value of the action= parameter). Can specify submodules with a '+'\nSeparate values with '|'\nMaximum number of values 50 (500 for bots)"
                 }
             }
+        },
+        "parse": {
+            "extends": "_abstract_request",
+            "description": "Parses content and returns parser output\nSee the various prop-Modules of action=query to get information from the currentversion of a page\n  There are several ways to specify the text to parse:\n  1) Specify a page or revision, using page, pageid, or oldid.\n  2) Specify content explicitly, using text, title, and contentmodel.\n  3) Specify only a summary to parse. prop should be given an empty value.\n  https://www.mediawiki.org/wiki/API:Parsing_wikitext#parse",
+            "parameters": {
+                "action": {
+                    "location": "query",
+                    "type": "string",
+                    "default": "parse",
+                    "static": true
+                },
+                "page": {
+                    "location": "query",
+                    "type": "string",
+                    "description": "Parse the content of this page. Cannot be used together with text and title"
+                },
+                "pageid": {
+                    "location": "query",
+                    "type": "string",
+                    "description": "Parse the content of this page. Overrides page"
+                },
+                "text": {
+                    "location": "query",
+                    "type": "string",
+                    "description": "Text to parse. Use title or contentmodel to control the content model"
+                },
+                "title": {
+                    "location": "query",
+                    "type": "string",
+                    "description": "Title of page the text belongs to. If omitted, \"API\" is used as the title with content model wikitext"
+                },
+                "contentmodel": {
+                    "location": "query",
+                    "type": "string",
+                    "description": "Content model of the input text. Default is the model of the specified title, or wikitext if title is not specified\nOnly valid when used with text\nOne value: wikitext, javascript, css, text"
+                },
+                "preview": {
+                    "location": "query",
+                    "type": "boolean",
+                    "description": "Parse in preview mode"
+                },
+                "sectionpreview": {
+                    "location": "query",
+                    "type": "boolean",
+                    "description": "Parse in section preview mode (enables preview mode too)"
+                },
+                "section": {
+                    "location": "query",
+                    "type": "integer",
+                    "description": "Only retrieve the content of this section number"
+                },
+                "oldid": {
+                    "location": "query",
+                    "type": "string",
+                    "description": "Parse the content of this revision. Overrides page and pageid"
+                },
+                "summary": {
+                    "location": "query",
+                    "type": "string",
+                    "description": "Summary to parse"
+                },
+                "prop": {
+                    "location": "query",
+                    "type": "string",
+                    "description": "Which pieces of information to get\n    text           - Gives the parsed text of the wikitext\n    langlinks      - Gives the language links in the parsed wikitext\n    categories     - Gives the categories in the parsed wikitext\n    categorieshtml - Gives the HTML version of the categories\n    languageshtml  - DEPRECATED. Will be removed in MediaWiki 1.24.\n                     Gives the HTML version of the language links\n    links          - Gives the internal links in the parsed wikitext\n    templates      - Gives the templates in the parsed wikitext\n    images         - Gives the images in the parsed wikitext\n    externallinks  - Gives the external links in the parsed wikitext\n    sections       - Gives the sections in the parsed wikitext\n    revid          - Adds the revision ID of the parsed page\n    displaytitle   - Adds the title of the parsed wikitext\n    headitems      - Gives items to put in the <head> of the page\n    headhtml       - Gives parsed <head> of the page\n    iwlinks        - Gives interwiki links in the parsed wikitext\n    wikitext       - Gives the original wikitext that was parsed\n    properties     - Gives various properties defined in the parsed wikitext\n   Values (separate with '|'): text, langlinks, languageshtml, categories, categorieshtml, links, templates, images, externallinks,\n       sections, revid, displaytitle, headitems, headhtml, iwlinks, wikitext, properties"
+                },
+                "redirects": {
+                    "location": "query",
+                    "type": "boolean",
+                    "description": "If the page or the pageid parameter is set to a redirect, resolve it"
+                },
+                "pst": {
+                    "location": "query",
+                    "type": "boolean",
+                    "description": "Do a pre-save transform on the input before parsing it.\nOnly valid when used with text"
+                },
+                "onlypst": {
+                    "location": "query",
+                    "type": "boolean",
+                    "description": "Do a pre-save transform (PST) on the input, but don't parse it.\nReturns the same wikitext, after a PST has been applied.\nOnly valid when used with text"
+                },
+                "effectivelanglinks": {
+                    "location": "query",
+                    "type": "string",
+                    "description": "Includes language links supplied by extensions\n(for use with prop=langlinks|languageshtml)"
+                },
+                "uselang": {
+                    "location": "query",
+                    "type": "string",
+                    "description": "Which language to parse the request in"
+                },
+                "disablepp": {
+                    "location": "query",
+                    "type": "boolean",
+                    "description": "Disable the PP Report from the parser output"
+                },
+                "generatexml": {
+                    "location": "query",
+                    "type": "boolean",
+                    "description": "Generate XML parse tree (requires contentmodel=wikitext)"
+                },
+                "contentformat": {
+                    "location": "query",
+                    "type": "string",
+                    "description": "Content serialization format used for the input text.\nOnly valid when used with text.\nOne value: text/x-wiki, text/javascript, text/css, text/plain"
+                }
+            }   
         }
     }
 }
