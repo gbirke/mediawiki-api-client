@@ -6,6 +6,8 @@ use Guzzle\Service\Client;
 use Guzzle\Service\Inspector;
 use Guzzle\Service\Description\ServiceDescription;
 use Guzzle\Common\Collection;
+use Guzzle\Plugin\Cookie\CookiePlugin;
+use Guzzle\Plugin\Cookie\CookieJar\ArrayCookieJar;
 
 class MediawikiApiClient extends Client
 {
@@ -27,6 +29,9 @@ class MediawikiApiClient extends Client
         $config = Collection::fromConfig($config, $default, $required);
 
         $client = new self($config->get('base_url'));
+
+        $cookiePlugin = new CookiePlugin(new ArrayCookieJar());
+        $client->addSubscriber($cookiePlugin);
 
         $client->setConfig($config);
         $client->setUserAgent('birke-mediawiki-api-client');
