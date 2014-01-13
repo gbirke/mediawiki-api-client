@@ -137,6 +137,41 @@
                     "description": "Content serialization format used for the input text.\nOnly valid when used with text.\nOne value: text/x-wiki, text/javascript, text/css, text/plain"
                 }
             }   
+        },
+        "login": {
+            "extends": "_abstract_request",
+            "httpMethod": "POST",
+            "description": "Login as user",
+            "parameters": {
+                "action": {
+                    "location": "query",
+                    "type": "string",
+                    "default": "login",
+                    "static": true
+                },
+                "lgname": {
+                    "location": "query",
+                    "type": "string",
+                    "description": "User Name",
+                    "required": true
+                },
+                "lgpassword": {
+                    "location": "query",
+                    "type": "string",
+                    "description": "Password",
+                    "required": true
+                },
+                "lgdomain": {
+                    "location": "query",
+                    "type": "string",
+                    "description": "Login domain (optional)"
+                },
+                "lgtoken": {
+                    "location": "query",
+                    "type": "string",
+                    "description": "Login token obtained in first request"
+                }
+            }
         }
     }
 }
