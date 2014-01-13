@@ -172,6 +172,18 @@
                     "description": "Login token obtained in first request"
                 }
             }
+        },
+        "logout": {
+            "extends": "_abstract_request",
+            "description": "Log out and clear session data",
+            "parameters": {
+                "action": {
+                    "location": "query",
+                    "type": "string",
+                    "default": "logout",
+                    "static": true
+                }
+            }
         }
     }
 }
