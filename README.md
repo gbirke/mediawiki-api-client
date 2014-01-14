@@ -10,7 +10,8 @@ Use composer to install the library and all its dependencies:
 
     composer require "gbirke/mediawiki-api:dev-master" 
 
-## Basic Usage example
+## Usage examples
+### Parse Wiki Text
 
 ```php
 require 'vendor/autoload.php';
@@ -25,5 +26,56 @@ $parse = $client->getCommand('parse', array(
 $result = $help->execute();
 print_r($result);
 ```
+
+### Log in and upload file
+
+```php
+require 'vendor/autoload.php';
+
+use Birke\Mediawiki\Api\MediawikiApiClient;
+
+$l = MediawikiApiClient::factory(array(
+        'base_url' => "http://localhost/w/api.php",
+));
+
+$credentials = array(
+    'lgname' => "Uploader",
+    'lgpassword' => 'my_super_secret_pw'
+);
+
+// Use magic methods
+$result = $l->login($credentials);
+//print_r($result);
+
+$resultMsg = $result['login']['result'];
+if ($resultMsg != "NeedToken" && $resultMsg != "Success") {
+    die("Login failed: $resultMsg");
+
+// First auth returns "NeedToken", reauthenticate with token
+if ($resultMsg == "NeedToken") {
+    $result = $l->login(array_merge(array(
+        'lgtoken' => $result['login']['token']
+    ), $credentials));
+    //print_r($result);
+}
+
+// Get an edit token (default value for "type")
+$tokens = $l->tokens();
+//print_r($tokens);
+
+// Upload a file
+$result = $l->upload(array(
+    'filename' => 'Thingie.jpg',
+    'token' => $tokens['tokens']['edittoken'],
+    'file' => "path/to/your/image.jpg",
+    'ignorewarnings' => true // Set this to false if you don't want to override files
+));
+
+print_r($result);
+
+// Cleanup session
+$l->logout();
+```
+
 
 [1]: http://guzzlephp.org/
