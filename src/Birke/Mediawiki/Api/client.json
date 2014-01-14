@@ -184,6 +184,128 @@
                     "static": true
                 }
             }
-        }
+        },
+        "tokens": {
+            "extends": "_abstract_request",
+            "description": "Gets tokens for data-modifying actions",
+            "parameters": {
+                "action": {
+                    "location": "query",
+                    "type": "string",
+                    "default": "tokens",
+                    "static": true
+                },
+                "type": {
+                    "location": "query",
+                    "type": "string",
+                    "default": "edit"
+                }
+            }
+        },
+        "upload": {
+            "extends": "_abstract_request",
+            "httpMethod": "POST",
+            "description": "Upload a file, or get the status of pending uploads. Several methods are available:\n   * Upload file contents directly, using the \"file\" parameter\n   * Have the MediaWiki server fetch a file from a URL, using the \"url\" parameter\n   * Complete an earlier upload that failed due to warnings, using the \"filekey\" parameter\n  Note that the HTTP POST must be done as a file upload (i.e. using multipart/form-data) when\n  sending the \"file\". Also you must get and send an edit token before doing any upload stuff",
+            "parameters": {
+                "action": {
+                    "location": "postField",
+                    "type": "string",
+                    "default": "upload",
+                    "static": true
+                },
+                "filename": {
+                    "location": "postField",
+                    "description": "Target filename",
+                    "type": "string"
+                },
+                "comment": {
+                    "location": "postField",
+                    "description": "Upload comment. Also used as the initial page text for new files if \"text\" is not specifiedDefault: \n",
+                    "type": "string"
+                },
+                "text": {
+                    "location": "postField",
+                    "description": "Initial page text for new files",
+                    "type": "string"
+                },
+                "token": {
+                    "location": "postField",
+                    "description": "Edit token. You can get one of these through prop=info\nThis parameter is required",
+                    "type": "string"
+                },
+                "watchlist": {
+                    "location": "postField",
+                    "description": "Unconditionally add or remove the page from your watchlist, use preferences or do not change watchOne value: watch, preferences, nochange\nDefault: preferences\n",
+                    "type": "string"
+                },
+                "ignorewarnings": {
+                    "location": "postField",
+                    "description": "Ignore any warnings",
+                    "type": "boolean"
+                },
+                "file": {
+                    "location": "postFile",
+                    "description": "File contentsMust be posted as a file upload using multipart\/form-data\n",
+                    "type": "string"
+                },
+                "url": {
+                    "location": "postField",
+                    "description": "URL to fetch the file from",
+                    "type": "string"
+                },
+                "filekey": {
+                    "location": "postField",
+                    "description": "Key that identifies a previous upload that was stashed temporarily.",
+                    "type": "string"
+                },
+                "stash": {
+                    "location": "postField",
+                    "description": "If set, the server will not add the file to the repository and stash it temporarily.",
+                    "type": "boolean"
+                },
+                "filesize": {
+                    "location": "postField",
+                    "description": "Filesize of entire upload",
+                    "type": "integer"
+                },
+                "offset": {
+                    "location": "postField",
+                    "description": "Offset of chunk in bytes",
+                    "type": "integer",
+                    "default": 0
+                },
+                "chunk": {
+                    "location": "postField",
+                    "description": "Chunk contents\nMust be posted as a file upload using multipart\/form-data\n",
+                    "type": "file"
+                },
+                "async": {
+                    "location": "postField",
+                    "description": "Make potentially large file operations asynchronous when possible",
+                    "type": "boolean"
+                },
+                "asyncdownload": {
+                    "location": "postField",
+                    "description": "Make fetching a URL asynchronous",
+                    "type": "boolean"
+                },
+                "leavemessage": {
+                    "location": "postField",
+                    "description": "If asyncdownload is used, leave a message on the user talk page if finished",
+                    "type": "true"
+                },
+                "statuskey": {
+                    "location": "postField",
+                    "description": "Fetch the upload status for this file key (upload by URL)",
+                    "type": "string"
+                },
+                "checkstatus": {
+                    "location": "postField",
+                    "description": "Only fetch the upload status for the given file key",
+                    "type": "boolean"
+                }
+
+            }
+      }
     }
 }
