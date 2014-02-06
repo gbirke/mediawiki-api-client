@@ -95,11 +95,12 @@ class Session {
      * @return type
      */
     public function getToken($type, $allowCache=true) {
-        if (!empty($this->tokencache[$type]) && $allowCache) {
-            return $this->tokencache[$type];
+        $tokenName = $type . 'token';
+        if (!empty($this->tokencache[$tokenName]) && $allowCache) {
+            return $this->tokencache[$tokenName];
         }
         $tokens = $this->getTokens(array($type));
-        return $tokens[$type];
+        return $tokens[$tokenName];
     }
     
     /**
