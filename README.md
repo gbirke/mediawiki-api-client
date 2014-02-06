@@ -50,6 +50,7 @@ $result = $client->login($credentials);
 $resultMsg = $result['login']['result'];
 if ($resultMsg != "NeedToken" && $resultMsg != "Success") {
     die("Login failed: $resultMsg");
+}
 
 // First auth returns "NeedToken", reauthenticate with token
 if ($resultMsg == "NeedToken") {
