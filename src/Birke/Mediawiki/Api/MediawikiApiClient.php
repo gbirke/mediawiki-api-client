@@ -9,6 +9,14 @@ use Guzzle\Common\Collection;
 use Guzzle\Plugin\Cookie\CookiePlugin;
 use Guzzle\Plugin\Cookie\CookieJar\ArrayCookieJar;
 
+/**
+ * @method array help
+ * @method array parse
+ * @method array login
+ * @method array logout
+ * @method array tokens
+ * @method array upload
+ */
 class MediawikiApiClient extends Client
 {
     /**
