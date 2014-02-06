@@ -118,7 +118,12 @@ class Session {
             throw new SessionException($message." Response: ".json_encode($result));
         }
     }
-    
-    
+
+    /**
+     * @return MediawikiApiClient
+     */
+    public function getClient() {
+        return $this->client;
+    }
     
 }
