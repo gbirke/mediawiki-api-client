@@ -34,17 +34,17 @@ require 'vendor/autoload.php';
 
 use Birke\Mediawiki\Api\MediawikiApiClient;
 
-$l = MediawikiApiClient::factory(array(
+$client = MediawikiApiClient::factory(array(
         'base_url' => "http://localhost/w/api.php",
 ));
 
 $credentials = array(
-    'lgname' => "Uploader",
+    'lgname' => 'Uploader',
     'lgpassword' => 'my_super_secret_pw'
 );
 
 // Use magic methods
-$result = $l->login($credentials);
+$result = $client->login($credentials);
 //print_r($result);
 
 $resultMsg = $result['login']['result'];
@@ -53,18 +53,18 @@ if ($resultMsg != "NeedToken" && $resultMsg != "Success") {
 
 // First auth returns "NeedToken", reauthenticate with token
 if ($resultMsg == "NeedToken") {
-    $result = $l->login(array_merge(array(
+    $result = $client->login(array_merge(array(
         'lgtoken' => $result['login']['token']
     ), $credentials));
     //print_r($result);
 }
 
 // Get an edit token (default value for "type")
-$tokens = $l->tokens();
+$tokens = $client->tokens();
 //print_r($tokens);
 
 // Upload a file
-$result = $l->upload(array(
+$result = $client->upload(array(
     'filename' => 'Thingie.jpg',
     'token' => $tokens['tokens']['edittoken'],
     'file' => "path/to/your/image.jpg",
@@ -74,7 +74,44 @@ $result = $l->upload(array(
 print_r($result);
 
 // Cleanup session
-$l->logout();
+$client->logout();
+```
+
+### Use Session class to handle credentials when uploading
+
+Since editing is such a common task, you can use the Session class to reduce the amount of code needed for logging in and getting login tokens:
+
+```php
+require 'vendor/autoload.php';
+
+use Birke\Mediawiki\Api\MediawikiApiClient;
+use Birke\Mediawiki\Api\Session;
+use Birke\Mediawiki\Api\SessionException;
+
+$client = MediawikiApiClient::factory(array(
+        'base_url' => "http://localhost/w/api.php",
+));
+
+$session = new Session($client);
+
+try {
+    $session->login('Uploader', 'my_super_secret_pw');
+    $token = $session->getEditToken();
+
+    // Upload a file
+    $result = $client->upload(array(
+        'filename' => 'Thingie.jpg',
+        'token' => $token,
+        'file' => "path/to/your/image.jpg",
+        'ignorewarnings' => true // Set this to false if you don't want to override files
+    ));
+
+    // Cleanup session
+    $session->logout();
+}
+catch(SessionException $e) {
+    echo "Something went wrong: ".$e->getMessage();
+}
 ```
 
 
